@@ -2,11 +2,22 @@ import numpy as np
 import pandas as pd
 
 from src.generators.samples import RandomNumberGenerator1d
-from src.generators.time import TimeGenerator
 from src.models.base import StochasticProcess
 
 
 class OrnsteinUhlenbeckProcess(StochasticProcess):
+    """
+    Class to generate trajectories from a Ornstein Uhlenbeck process.
+
+    To use, instantiate the process with a given set of characteristics,
+    then just call on the instance with the desired number of paths.
+
+    For example, to generate 100 paths:
+
+    ou = OrnsteinUhlenbeckProcess(volatility=0.01)
+    paths = ou(100)
+
+    """
 
     def __init__(self, volatility: float, long_term_mean: float = 1.0, mean_reversion: float = 0.0,
                  initial_value: float = 1.0, maturity: float = 1.0, time_intervals: int = 365):
@@ -31,7 +42,8 @@ class OrnsteinUhlenbeckProcess(StochasticProcess):
         theta = self.long_term_mean
 
         # Random normal generation
-        epsilon = np.random.normal(0, 1, (nb_paths, nb_time_steps - 1))
+        # epsilon = np.random.normal(0, 1, (nb_paths, nb_time_steps - 1))
+        epsilon = RandomNumberGenerator1d.normal(samples=nb_time_steps-1, paths=nb_paths).T
 
         # Initialization
         _ou = np.zeros((nb_paths, nb_time_steps))

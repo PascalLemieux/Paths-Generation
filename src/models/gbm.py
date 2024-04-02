@@ -2,12 +2,22 @@ import numpy as np
 import pandas as pd
 
 from src.generators.samples import RandomNumberGenerator1d
-from src.generators.time import TimeGenerator
 from src.models.base import StochasticProcess
 
 
 class GeometricBrownianMotion(StochasticProcess):
+    """
+    Class to generate trajectories from the Geo Brownian Motion process.
 
+    To use, instantiate the process with a given set of characteristics,
+    then just call on the instance with the desired number of paths.
+
+    For example, to generate 1,000 paths:
+
+    gbm = GeometricBrownianMotion(volatility=0.25)
+    paths = gbm(1000)
+
+    """
     def __init__(self, volatility: float, drift: float = 0.0, initial_value: float = 1.0,
                  maturity: float = 1.0, time_intervals: int = 365):
         super().__init__(volatility=volatility, initial_value=initial_value,
@@ -48,9 +58,6 @@ class GeometricBrownianMotion(StochasticProcess):
         if self.paths is None or regenerate or self.nb_paths != nb_paths:
             self.paths = self.__generate_gbm(nb_paths=nb_paths)
         return self.paths
-
-    def __call__(self, nb_paths, regenerate: bool = True):
-        return self.generate(nb_paths=nb_paths, regenerate=regenerate)
 
     def theoretical_expectation(self, spot_0: float = None, maturity: float = None, drift: float = None):
         spot_0 = self.initial_value if spot_0 is None else spot_0

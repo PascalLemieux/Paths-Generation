@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 import pandas as pd
 
 from src.generators.time import TimeGenerator
@@ -8,6 +9,7 @@ class StochasticProcess(ABC):
 
     def __init__(self, volatility: float, maturity: float = 1.0, time_intervals: int = 365,
                  initial_value: float = 1.0):
+        #
         # Common to all stochastic processes
         self.volatility = max(0.0, float(volatility))
         self.initial_value = float(initial_value)  # spot at t=0
@@ -16,7 +18,7 @@ class StochasticProcess(ABC):
         self.time = TimeGenerator(maturity=maturity, intervals=time_intervals)
 
         # Monte Carlo paths
-        self.paths: pd.DataFrame = None
+        self.paths: Optional[pd.DataFrame] = None
         self.nb_paths: int = 0
 
     @property
@@ -32,4 +34,4 @@ class StochasticProcess(ABC):
 
     @abstractmethod
     def generate(self, nb_paths: int, regenerate: bool = True):
-        raise NotImplementedError()
+        raise NotImplementedError("Child classes must implement this method.")
