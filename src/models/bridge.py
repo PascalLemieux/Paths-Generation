@@ -20,7 +20,7 @@ class BrownianBridge(StochasticProcess):
 
     """
 
-    def __init__(self, volatility: float, drift: float = 0.0, maturity: float = 1.0, time_intervals: int = 365):
+    def __init__(self, volatility: float, maturity: float = 1.0, time_intervals: int = 365):
         #
         # Parent
         super().__init__(volatility=volatility, initial_value=0.0,
