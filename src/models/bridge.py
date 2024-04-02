@@ -26,9 +26,12 @@ class BrownianBridge(StochasticProcess):
         super().__init__(volatility=volatility, initial_value=0.0,
                          maturity=maturity, time_intervals=time_intervals)
 
-    def __generate_bridge(self, nb_paths):
+    def __generate_bridge(self, nb_paths: int):
 
-        # References
+        # Set for future reference
+        self.nb_paths = nb_paths
+
+        # References for speed...
         time_steps = self.time.steps
         vol = self.volatility
 
@@ -39,12 +42,13 @@ class BrownianBridge(StochasticProcess):
         bridge = np.empty((nb_paths, time_steps), dtype=np.float32)
         bridge[:, 0] = 0
 
-        # for n in six.moves.range(N - 2):
         for n in range(0, time_steps - 2):
             t = n * dt
             xi = np.random.randn(nb_paths) * dt_sqrt * vol
             bridge[:, n + 1] = bridge[:, n] * (1 - dt / (1 - t)) + xi
-        bridge[:, -1] = 0  # added: set the last B to Zero
+
+        # Force to zero on last time step
+        bridge[:, -1] = 0.0
 
         return pd.DataFrame(bridge.T, index=self.schedule)
 

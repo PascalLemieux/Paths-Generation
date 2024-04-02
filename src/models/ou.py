@@ -35,6 +35,9 @@ class OrnsteinUhlenbeckProcess(StochasticProcess):
 
     def __generate_ou(self, nb_paths):
 
+        # Reference for future check
+        self.nb_paths = nb_paths
+
         # Reference these...
         nb_time_steps = self.time.steps
         kappa = self.mean_reversion
