@@ -38,7 +38,7 @@ class GeometricBrownianMotion(StochasticProcess):
 
     @property
     def r_dt(self):
-        drift_per_period = np.power(1.0 + self.drift, self.time.dt) - 1.0
+        drift_per_period = np.exp(self.drift * self.time.dt) - 1.0
         _r_dt = np.ones(shape=(self.time.steps, self.nb_paths)) * drift_per_period
         _r_dt[0, :] = 0.0
         return _r_dt
