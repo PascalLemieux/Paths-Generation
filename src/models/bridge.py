@@ -52,7 +52,7 @@ class BrownianBridge(StochasticProcess):
 
         return pd.DataFrame(bridge.T, index=self.schedule)
 
-    def generate(self, nb_paths: int, regenerate: bool = True):
+    def generate(self, nb_paths: int = 1, regenerate: bool = True):
         if self.paths is None or regenerate or self.nb_paths != nb_paths:
             self.paths = self.__generate_bridge(nb_paths=nb_paths)
         return self.paths

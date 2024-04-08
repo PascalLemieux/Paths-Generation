@@ -61,7 +61,7 @@ class OrnsteinUhlenbeckProcess(StochasticProcess):
 
         return pd.DataFrame(np.transpose(_ou), index=self.schedule)
 
-    def generate(self, nb_paths: int, regenerate: bool = True):
+    def generate(self, nb_paths: int = 1, regenerate: bool = True):
         if self.paths is None or regenerate or self.nb_paths != nb_paths:
             self.paths = self.__generate_ou(nb_paths=nb_paths)
         return self.paths
