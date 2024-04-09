@@ -19,7 +19,6 @@ class GeometricBrownianMotion(StochasticProcess):
     paths = gbm(1000)
 
     """
-
     def __init__(self, volatility: float, drift: float = 0.0, initial_value: float = 1.0,
                  maturity: float = 1.0, time_intervals: int = 365):
         super().__init__(volatility=volatility, initial_value=initial_value,
